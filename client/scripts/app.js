@@ -2,6 +2,8 @@
 var app = {
   init: function() {
     $('.username').on('click', app.handleUsernameClick);
+    // $('#send').on('click', app.handleSubmit);
+    $('#send .submit').on('submit', app.handleSubmit);
   },
   send: function(message) {
     $.ajax({
@@ -60,5 +62,14 @@ var app = {
     }));
   },
   handleUsernameClick: function() {
+  },
+  handleSubmit: function() {
+
   }
 };
+
+
+
+
+
+
