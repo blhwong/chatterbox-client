@@ -1,12 +1,13 @@
 // YOUR CODE HERE:
 window.roomNames = {};
+window.filteredRoom = 'All Rooms';
 
 var app = {
   init: function() {
     $('.username').on('click', app.handleUsernameClick);
     // $('#send').on('click', app.handleSubmit);
     $('#send .submit').on('click', app.handleSubmit);
-    console.log('initialized');
+    // console.log('initialized');
   },
   send: function(message) {
     $.ajax({
@@ -24,29 +25,39 @@ var app = {
       }
     });
   },
-  fetch: function(url) {
+  fetch: function() {
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
-      url: url,
+      url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
       type: 'GET',
       data: 'order=-createdAt',
       // data: JSON.stringify(message),
       // contentType: 'application/json',
       success: function (data) {
         console.log('chatterbox: Message received');
-        console.log(data);
+        //console.log(data);
         // debugger;
         for (var i = 0; i < data.results.length; i++) {
           //debugger;
-          app.renderMessage(data.results[i]);
+          //render message only filtered rooms
+          //if unfiltered, render all
+          if ((data.results[i].roomname === window.filteredRoom) || window.filteredRoom === 'All Rooms') {
+            app.renderMessage(data.results[i]);
+          }
 
+          // check if any duplications in room names; 
+          // if no duplications, they are added to the room dropdown list
           if (!window.roomNames[data.results[i].roomname || 'lobby']) {
             window.roomNames[data.results[i].roomname] = true;
             app.renderRoom(data.results[i].roomname);
           }
           
         }
-
+        $('select').on('change', function() {
+          debugger;
+          window.filteredRoom = this.value;
+          console.log('Room changed to ' + this.value);
+        });
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -79,7 +90,10 @@ var app = {
     // var roomName = message.
     $('#roomSelect').append($('<option>', {
       value: room,
-      text: room
+      text: room,
+      onchange: function() {
+
+      }
     }));
   },
   handleUsernameClick: function() {
@@ -97,16 +111,17 @@ var app = {
     messageObject['roomname'] = roomname;
 
     app.send(messageObject);
-  }
+  },
+  server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages'
 };
 
 
 app.init();
-app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
+app.fetch();
 
 window.setInterval(function() {
   app.clearMessages();
-  app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
+  app.fetch();
 }, 5000);
 
 
