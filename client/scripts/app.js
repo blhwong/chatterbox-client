@@ -28,6 +28,8 @@ var app = {
       // This is the url you should use to communicate with the parse API server.
       url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
       type: 'GET',
+      count: 111,
+      data: 'order=-createdAt',
       //data: JSON.stringify(message),
       // contentType: 'application/json',
       //dataType: 'jsonp',
@@ -75,6 +77,7 @@ var app = {
 
 
 app.init();
+app.fetch();
 app.fetch();
 // window.setInterval(function() {
 //   // e.preventDefault();
