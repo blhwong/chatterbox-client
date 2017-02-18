@@ -39,15 +39,25 @@ var app = {
     $('#chats').empty();
   },
   renderMessage: function(message) {
+
+    $('#chats').append($('<div>', message));
+
+    // var username = message.username;
+    // var text = message.text;
+    // var newDivElement = document.createElement('div');
+
+    // newDivElement.append(username + ' ' + text);
+    // //var $message = $('<div>', message.text);
+    // console.log(newDivElement);
+    // $('#chats').append(newDivElement);
+
+  },
+  renderRoom: function(room) {
+    // var roomName = message.
     debugger;
-    var username = message.username;
-    var text = message.text;
-    var newDivElement = document.createElement('div');
-
-    newDivElement.append(username + ' ' + text);
-    //var $message = $('<div>', message.text);
-    console.log(newDivElement);
-    $('#chats').append(newDivElement);
-
+    $('#roomSelect').append($('<option>', {
+      value: room,
+      text: room
+    }));
   }
 };
