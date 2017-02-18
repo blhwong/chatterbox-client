@@ -23,17 +23,18 @@ var app = {
       }
     });
   },
-  fetch: function(url) {
+  fetch: function() {
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
-      url: url,
+      url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
       type: 'GET',
-      // data: JSON.stringify(message),
+      //data: JSON.stringify(message),
       // contentType: 'application/json',
+      //dataType: 'jsonp',
       success: function (data) {
         console.log('chatterbox: Message received');
         console.log(data);
-
+        debugger;
         for (var i = 0; i < data.results.length; i++) {
           app.renderMessage(data.results[i]);
         }
@@ -68,10 +69,17 @@ var app = {
     debugger;
     var message = ($('#message')[0].value);
 
-  }
+  },
+  server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages'
 };
 
 
 app.init();
-app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
-//window.setInterval();
+app.fetch();
+// window.setInterval(function() {
+//   // e.preventDefault();
+//   app.clearMessages();
+//   console.log('clearing');
+//   app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
+//   console.log('fetching');
+// }, 5000);
