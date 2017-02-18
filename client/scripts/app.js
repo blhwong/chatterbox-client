@@ -3,9 +3,11 @@ var app = {
   init: function() {
     $('.username').on('click', app.handleUsernameClick);
     // $('#send').on('click', app.handleSubmit);
-    $('#send .submit').on('submit', app.handleSubmit);
+    $('#send .submit').on('click', app.handleSubmit);
+    console.log('initialized');
   },
   send: function(message) {
+    debugger;
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
       url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
@@ -26,10 +28,16 @@ var app = {
       // This is the url you should use to communicate with the parse API server.
       url: url,
       type: 'GET',
-      data: JSON.stringify(message),
-      contentType: 'application/json',
+      // data: JSON.stringify(message),
+      // contentType: 'application/json',
       success: function (data) {
         console.log('chatterbox: Message received');
+        console.log(data);
+    
+        for (var i = 0; i < data.results.length; i++) {
+          app.renderMessage(data.results[i]);
+        }
+
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -41,18 +49,10 @@ var app = {
     $('#chats').empty();
   },
   renderMessage: function(message) {
-
-    $('#chats').append($('<div class="username">', message));
-
-    // var username = message.username;
-    // var text = message.text;
-    // var newDivElement = document.createElement('div');
-
-    // newDivElement.append(username + ' ' + text);
-    // //var $message = $('<div>', message.text);
-    // console.log(newDivElement);
-    // $('#chats').append(newDivElement);
-
+    // $('#chats').append($('<div class="username">', message.text));
+    $('#chats').append($('<div class="container"></div>'));
+    $('.container').append($('<div class="username">' + message.username + ':</div>'));
+    $('.container').append($('<div class="message">' + message.text + '</div>'));
   },
   renderRoom: function(room) {
     // var roomName = message.
@@ -63,13 +63,14 @@ var app = {
   },
   handleUsernameClick: function() {
   },
-  handleSubmit: function() {
-
+  handleSubmit: function(event) {
+    // e.preventDefault();
+    debugger;
+    var message = ($('#message')[0].value);
   }
 };
 
 
-
-
-
-
+app.init();
+app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
+//window.setInterval();
