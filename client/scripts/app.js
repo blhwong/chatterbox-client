@@ -1,4 +1,6 @@
 // YOUR CODE HERE:
+window.roomNames = {};
+
 var app = {
   init: function() {
     $('.username').on('click', app.handleUsernameClick);
@@ -7,7 +9,6 @@ var app = {
     console.log('initialized');
   },
   send: function(message) {
-    debugger;
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
       url: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages',
@@ -34,9 +35,16 @@ var app = {
       success: function (data) {
         console.log('chatterbox: Message received');
         console.log(data);
-    
+        // debugger;
         for (var i = 0; i < data.results.length; i++) {
+          //debugger;
           app.renderMessage(data.results[i]);
+
+          if (!window.roomNames[data.results[i].roomname || 'lobby']) {
+            window.roomNames[data.results[i].roomname] = true;
+            app.renderRoom(data.results[i].roomname);
+          }
+          
         }
 
       },
@@ -51,12 +59,6 @@ var app = {
     $('#chats').empty();
   },
   renderMessage: function(message) {
-    //debugger;
-    // $('#chats').append($('<div class="container"></div>'));
-    // $('.container').append($('<div class="username">' + message.username + ':</div>'));
-    // $('.container').append($('<div class="message">' + message.text + '</div>'));
-
-    //make container div
     var container = document.createElement('div');
     container.className = 'container'; // <div class="container"></div>
 
@@ -71,18 +73,6 @@ var app = {
     container.append(username);
     container.append(text);
     $('#chats').append(container);
-    //append username into into container
-    // container.append(('<div class="username">' + message.username + ':</div>'));
-    // //append message into container
-    // container.append(('<div class="text">' + message.text + '</div>'));
-    // //append container to chat
-    // $('#chats').append(container);
-
-    //OR
-
-    //append container into chats
-    //append last instance of container
-    //append last instance of container
 
   },
   renderRoom: function(room) {
@@ -96,9 +86,17 @@ var app = {
   },
   handleSubmit: function(event) {
     // e.preventDefault();
-    debugger;
-    var message = ($('#message')[0].value);
-    
+    // debugger;
+    var text = ($('#message')[0].value);
+    var username = window.location.search.slice(10);
+    var roomname = 'lobby';
+    //var roomname = || 'lobby';
+    var messageObject = {};
+    messageObject['text'] = text;
+    messageObject['username'] = username;
+    messageObject['roomname'] = roomname;
+
+    app.send(messageObject);
   }
 };
 
@@ -107,7 +105,6 @@ app.init();
 app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
 
 window.setInterval(function() {
-  //e.preventDefault();
   app.clearMessages();
   app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
 }, 5000);
