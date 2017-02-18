@@ -67,6 +67,7 @@ var app = {
     // e.preventDefault();
     debugger;
     var message = ($('#message')[0].value);
+    
   }
 };
 
