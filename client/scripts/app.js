@@ -51,7 +51,7 @@ var app = {
     $('#chats').empty();
   },
   renderMessage: function(message) {
-    debugger;
+    //debugger;
     // $('#chats').append($('<div class="container"></div>'));
     // $('.container').append($('<div class="username">' + message.username + ':</div>'));
     // $('.container').append($('<div class="message">' + message.text + '</div>'));
@@ -105,4 +105,12 @@ var app = {
 
 app.init();
 app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
-//window.setInterval();
+
+window.setInterval(function() {
+  //e.preventDefault();
+  app.clearMessages();
+  app.fetch('http://parse.sfm6.hackreactor.com/chatterbox/classes/messages');
+}, 5000);
+
+
+

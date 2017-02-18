@@ -59,15 +59,18 @@ form input[type=text] {
     padding: 5px;
 }
 
+#chats {
+    overflow: scroll;
+    height: 500px;
+}
+
 .chat {
     padding: 5px;
+
     margin-bottom: 5px;
     background-color: #eee;
 }
 
-.chat .username {
-    font-weight: 800;
-}
 
 .chat:hover {
     background-color: #ddd;
@@ -86,5 +89,10 @@ form input[type=text] {
 .friend {
     color: #fff;
     background-color: #0090da;
+}
+
+.container {
+    background: #eee;
+    margin: 5px;
 }
 
