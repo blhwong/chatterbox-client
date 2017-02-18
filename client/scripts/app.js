@@ -1,7 +1,7 @@
 // YOUR CODE HERE:
 var app = {
   init: function() {
-
+    $('.username').on('click', app.handleUsernameClick);
   },
   send: function(message) {
     $.ajax({
@@ -40,7 +40,7 @@ var app = {
   },
   renderMessage: function(message) {
 
-    $('#chats').append($('<div>', message));
+    $('#chats').append($('<div class="username">', message));
 
     // var username = message.username;
     // var text = message.text;
@@ -54,10 +54,11 @@ var app = {
   },
   renderRoom: function(room) {
     // var roomName = message.
-    debugger;
     $('#roomSelect').append($('<option>', {
       value: room,
       text: room
     }));
+  },
+  handleUsernameClick: function() {
   }
 };
