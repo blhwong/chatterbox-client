@@ -1,6 +1,7 @@
 // YOUR CODE HERE:
 window.roomNames = {};
 window.filteredRoom = 'All Rooms';
+window.friendList = {};
 
 var app = {
   init: function() {
@@ -57,13 +58,22 @@ var app = {
           debugger;
           window.filteredRoom = this.value;
           console.log('Room changed to ' + this.value);
+          app.clearMessages();
+          app.fetch();
+        });
+        $('.username').on('click', function() {
+          debugger;
+          window.friendList[this.innerHTML] = true; // see if any issues
+          //this.className = 'username friend';
+          console.log(this.innerHTML + ' is added to friend list');
+          app.clearMessages();
+          app.fetch();
         });
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
         console.error('chatterbox: Failed to receive message', data);
       },
-      // data-urlencode: order=-score;
     });
   },
   clearMessages: function() {
@@ -74,9 +84,12 @@ var app = {
     container.className = 'container'; // <div class="container"></div>
 
     var username = document.createElement('div');
-    username.className = 'username';
-    username.append(message.username + ':');
-    
+    if (window.friendList[message.username]) {
+      username.className = 'username friend';
+    } else {
+      username.className = 'username';
+    }
+    username.append(message.username);  
     var text = document.createElement('div');
     text.className = 'text';
     text.append(message.text);
@@ -92,7 +105,6 @@ var app = {
       value: room,
       text: room,
       onchange: function() {
-
       }
     }));
   },
