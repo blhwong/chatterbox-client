@@ -53,6 +53,7 @@ var app = {
   },
   renderMessage: function(message) {
     // $('#chats').append($('<div class="username">', message.text));
+    debugger;
     $('#chats').append($('<div class="container"></div>'));
     $('.container').append($('<div class="username">' + message.username + ':</div>'));
     $('.container').append($('<div class="message">' + message.text + '</div>'));
